@@ -86,7 +86,7 @@ class Card extends Button {
   update() {
     super.update(); renderImage(this.image, this.transform, 0);
     if(this.go) {
-      this.a += 2;
+      this.a += 1;
       this.transform.position.y += this.a;
       if(this.transform.position.y > layers[0].canvas.height * 2) {
         this.transform.position.y = layers[0].canvas.height / 2;
