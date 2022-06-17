@@ -36,15 +36,14 @@ class ChangeButton extends Button {
     super(x, y, 60, 60);
     this.image = image;
     this.value = value; this.id = id;
-    renderImage(this.image, this.transform, 0);
   }
 
   animate(value) {
-    clearTransform(this.transform, 0);
     this.transform.size.x += value;
     this.transform.size.y += value;
-    renderImage(this.image, this.transform, 0);
   }
+
+  update() { super.update(); clearTransform(this.transform, 0); renderImage(this.image, this.transform, 0); }
 
   onPress() { this.animate(-10); }
   onInterrupt() { this.animate(10); }
@@ -54,8 +53,9 @@ class ChangeButton extends Button {
 class StartButton extends Button {
   constructor() {
     super(layers[0].canvas.width - 50, layers[0].canvas.height / 2, 100, layers[0].canvas.height);
-    renderImage(arrowImage, this.transform, 0);
   }
+
+  update() { super.update(); renderImage(arrowImage, this.transform, 0); }
 
   onRelease() {
     clearTransform(new Transform(layers[0].canvas.width / 2, layers[0].canvas.height / 2, layers[0].canvas.width, layers[0].canvas.height), 0);
@@ -82,10 +82,11 @@ class Card extends Button {
     this.image = new Image(); this.frame = 0; this.change();
   }
 
+  update() { super.update(); renderImage(this.image, this.transform, 0); }
+
   change() {
     if(current_characters.length == this.frame) return;
     this.image.src = "resources/images/" + current_characters[this.frame] + ".png";
-    this.image.onload = () => renderImage(this.image, this.transform, 0);
     this.frame += 1;
   }
 
