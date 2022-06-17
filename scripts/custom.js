@@ -79,10 +79,23 @@ class StartButton extends Button {
 class Card extends Button {
   constructor() {
     super(layers[0].canvas.width / 2, layers[0].canvas.height / 2, 500, 915);
-    this.image = new Image(); this.frame = 0; this.change();
+    this.image = new Image(); this.frame = 0; this.change(); this.go = false;
+    this.a = 0;
   }
 
-  update() { super.update(); renderImage(this.image, this.transform, 0); }
+  update() {
+    super.update(); renderImage(this.image, this.transform, 0);
+    if(this.go) {
+      this.a += 2;
+      this.transform.position.y += this.a;
+      if(this.transform.position.y > layers[0].canvas.height * 2) {
+        this.transform.position.y = layers[0].canvas.height / 2;
+        this.go = false;
+        this.change();
+        this.a = 0;
+      }
+    }
+  }
 
   change() {
     if(current_characters.length == this.frame) return;
@@ -90,7 +103,7 @@ class Card extends Button {
     this.frame += 1;
   }
 
-  onRelease() { this.change(); }
+  onRelease() { this.go = true; }
 }
 
 let currentID = 0;
